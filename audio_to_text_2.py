@@ -40,10 +40,10 @@ def transcribe_audio_file():
     current_dir = os.getcwd()
 
     for file in os.listdir(current_dir):
-        if file.endswith(".mp4"):
-            mp4_file = os.path.join(current_dir, file)
+        # if file.endswith(".mp4"):
+            audio_file = os.path.join(current_dir, file)
             #print(mp4_file)
-    filename = mp4_file
+    filename = audio_file
     bar.progress(20)
 
     def read_file(filename, chunk_size=5242880):
