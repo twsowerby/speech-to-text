@@ -57,7 +57,7 @@ def transcribe_audio_file():
     response = requests.post('https://api.assemblyai.com/v2/upload',
                             headers=headers,
                             data=read_file(filename))
-    audio_url = response.json()['upload_url']
+    audio_url = "https://storage.googleapis.com/audimatix-public/stories_of_old_greece_and_rome_kevin_green/clip_1027.wav"
     #st.info('3. YouTube audio file has been uploaded to AssemblyAI')
     bar.progress(30)
 
@@ -147,7 +147,7 @@ st.sidebar.header('Input parameter')
 
 with st.sidebar.form(key='my_form'):
     URL = st.text_input('Enter URL of YouTube video:') #https://youtu.be/IUTGFQpKaPU (this is an example)
-    uploaded_file = st.file_uploader("Upload your audio files:")
+    uploaded_files = st.file_uploader("Upload your audio files:", accept_multiple_files=True)
     submit_button = st.form_submit_button(label='Transcribe')
 
 if (uploaded_file is None) and (str(URL)==''):
@@ -161,9 +161,10 @@ if submit_button:
         st.sidebar.warning('Only one option is possible!')
         raise Exception("You must provide a URL or an audio file, not both!")
 
-    elif uploaded_file is not None:
-        upload_file(uploaded_file)
-        transcribe_audio_file()
+    elif uploaded_files is not None:
+        for uploaded_file in uploaded_files:
+            upload_file(uploaded_file)
+            transcribe_audio_file()
 
     elif str(URL)!='':
         get_yt(URL)
